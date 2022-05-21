@@ -3,7 +3,7 @@
 #NoEnv
 
 SendMode Input
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+SetWorkingDir %A_ScriptDir% ; Ensures a consistent starting directory.
 
 Run, "%A_ScriptDir%\duck.ahk"
 Run, "%A_ScriptDir%\syllabic.ahk"
@@ -11,7 +11,6 @@ Run, "%A_ScriptDir%\syllabic.ahk"
 #\::Reload
 
 #`::Suspend
-
 
 >!Up::Send, {PgUp}
 >!Down::Send, {PgDn}

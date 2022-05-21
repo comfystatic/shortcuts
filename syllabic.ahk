@@ -1,6 +1,6 @@
 #SingleInstance Force
 #Persistent
-
+#NoEnv
 
 SendMode Input
 

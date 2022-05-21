@@ -1,6 +1,6 @@
 #SingleInstance Force
 #Persistent
-
+#NoEnv
 
 SendMode Input
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.

@@ -1,5 +1,6 @@
 #SingleInstance Force
 #Persistent
+#NoEnv
 
 F23::
     Input UserInput, , {Space}{Enter}

@@ -12,6 +12,9 @@ Run, "%A_ScriptDir%\syllabic.ahk"
 
 #`::Suspend
 
++BackSpace::Send, {Delete}
+^+BackSpace::Send, ^{Delete}
+
 >!Up::Send, {PgUp}
 >!Down::Send, {PgDn}
 

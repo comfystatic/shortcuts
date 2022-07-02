@@ -2,73 +2,75 @@
 #Persistent
 #NoEnv
 
-F23::
+*F23::
     Input UserInput, , {Space}{Enter}
 
     Switch UserInput
     {
-    case "":
-        if WinActive("ahk_exe chrome.exe") {
+        case "": If WinActive("ahk_exe chrome.exe") 
             Send, ^l
-        }
         case "o": Tab(TextSelected()) ; Generic Search
 
-        case "d": Duck("di") ; Dictionary
+        case "d": Query("di") ; Dictionary
         ; case "d": VSCode("C:\Rainlink\") ; New JS Script
-        case "t": Duck("thes") ; Thesaurus
-        ; case "g": Duck("ddg") ; duck duck
-        case "g": Duck("g") ; Google
-        case "i": Duck("ddgi") ; images
-        case "r": Duck("relword") ; Related Words
-        case "m": Duck("maps") ; Maps
-        case "y": Duck("yt") ; youtube
-        case "az": Duck("a") ; Amazon
-        case "rd": Duck("r") ; Reddit
-        case "ii": Duck("gi") ; Google Images
-        case "im": Duck("imdb") ; IMDB
-        case "gh": Duck("gh") ; Github
-        case "gt": Duck("gtranslate") ; Google translate
-        case "tr": Duck("deeplen") ; DeepL translate
-        case "so": Duck("so") ; Stack Overflow
-        case "un": Duck("uns") ; Unsplash
+        case "t": Query("thes") ; Thesaurus
+        ; case "g": Query("ddg") ; duck duck
+        case "g": Query("g") ; Google
+        case "i": Query("ddgi") ; images
+        case "r": Query("relword") ; Related Words
+        case "m": Query("maps") ; Maps
+        case "w": Query("wra") ; Wolfram Alpha
+        case "y": Query("yt") ; youtube
+        case "a": Query("a") ; Amazon
+        case "rd": Query("r") ; Reddit
+        case "ii": Query("gi") ; Google Images
+        case "im": Query("imdb") ; IMDB
+        case "gh": Query("gh") ; Github
+        case "gt": Query("gtranslate") ; Google translate
+        case "tr": Query("deeplen") ; DeepL translate
+        case "so": Query("so") ; Stack Overflow
+        case "un": Query("uns") ; Unsplash
 
         case "n": Run, Notepad ; Notepad
-        case "c": VSCode(A_ScriptDir) ; VS Code
+        case "c": VSCode() ; VS Code
+        case "x": VSCode(A_ScriptDir) ; VS Code
+        case "js": VSCode("C:\Node") ; VS Code
         case "s": Run % "C:\Rainlink\Spotify" ; Spotify
 
         case "ai": Tab("https://beta.openai.com/playground") ; 420
-        case "bg": Duck("boardgamegeek") ; Board Game Geek
-        case "wr": Duck("wra") ; Wolfram Alpha
+        case "bg": Query("boardgamegeek") ; Board Game Geek
 
         case "dd": Tab("https://thedowntowndispensary.com/adult-use-pickup/") ; 420
 
-        case "rpg": Duck("rpg") ; RPG Stack Exchange
+        case "rpg": Query("rpg") ; RPG Stack Exchange
         case "del": Deluge() ; Deluge
-        case "fan": Duck("fandom") ; Fandom Wikis
-        case "imd": Duck("imdb") ; IMDB
+        case "fan": Query("fandom") ; Fandom Wikis
+        case "imd": Query("imdb") ; IMDB
         case "tor": Tor() ; Tor
-        case "7": Duck("dnd") ; DND
-        case "1": Duck("bang") ; Bang search
+        case "url": Query("gdomains") ; 420
+        case "7": Query("dnd") ; DND
+        case "8": Query("dndio") ; DND
+        case "1": Query("bang") ; Bang search
         case "2": Chrome("Default", "https://mail.google.com/mail/u/0/?tab=rm1#inbox") ; Mail
         case "22": Send, yenmcilrath@gmail.com
-        case "6": Tab("https://www.autohotkey.com/docs/Hotkeys.htm") ; AHK
         case "3": Chrome("Profile 5") ; Comfy Static
+        case "6": Tab("https://www.autohotkey.com/docs/Hotkeys.htm") ; AHK
+        case "=": Tab("https://desmos.com/calculator") ; Desmos
         case "/": Tab("https://frequencylist.com/") ; Frequency List
-    Default: return
-}
+        Default: return
+    }
 
 return
 
-F23 Up::
-    Input ; End input.
+*F23 Up::
+    Input
 return
 
 TextSelected() {
     ClipSaved := ClipboardAll
     Str:= Clipboard
-    Clipboard := "" ; Clear the clipboard
+    Clipboard := "" ; Clear the 
     Send, {CTRLDOWN}c{CTRLUP}
-    ClipWait, 1
     if (Clipboard != "" AND !InStr(ClipBoard, A_ScriptDir)) {
         ; something has been selected
         Str := Clipboard
@@ -108,16 +110,23 @@ Tab(url="", profile="") {
         }
     }
 
-    Duck(Bang) {
+    Query(Bang) {
         if WinActive("New Tab") {
             SendInput, ^l
         }
         TextSel := TextSelected()
         ;   StringReplace, TextSel, TextSel, . , %A_Space%, All
         StringReplace, TextSel, TextSel, + , `%2B, All
-        TextSel := (TextSel == "") ? "" : Trim(TextSel) " "
+        StringReplace, TextSel, TextSel, `r`n,, All
+        TextSel := (TextSel == "") ? "" : Trim(TextSel)
         StringReplace, Replaced, TextSel, %A_Space%, +, All
-        url := "https://duckduckgo.com/?q=" Replaced "!" Bang
+
+        Switch Bang
+        {
+            case "dndio": url := "https://www.dndwiki.io/search?query=" Replaced
+            Default: url := "https://duckduckgo.com/?q=" Replaced "+!" Bang
+        }
+
         Tab(url)
     }
 
